@@ -1,0 +1,47 @@
+info:
+  title: SecureDataService
+  version: 1.0.0
+consumes:
+  - application/octet-stream
+produces:
+  - application/octet-stream
+swagger: '2.0'
+17.32
+paths:
+  /{ObjectName}:
+    get:
+      operationId: getFile
+      summary: Returns either the file if the name has a match in the DB or an empty file. Always returns a 200 response
+      responses:
+        200:
+          description: OK
+          schema:
+            type: stream
+            items:
+              $ref: '#/definitions/SecureDataService'
+    post:
+      operationId: uploadingPost
+      summary: uploads a File to the DB and returns an objectname with which the File can be retrieved
+      consumes:
+      - "application/octet-stream"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: OK
+          schema:
+          items: Response
+            $ref: '#/definitions/Response'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+           type: HTTP MultipartFile
+definitions:
+  Response:
+    type: application/json
+    properties:
+      name:
+        entity: ObjectName of the uploaded file
+type: string
